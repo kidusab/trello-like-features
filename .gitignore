@@ -1,3 +1,5 @@
 .dev/
 plans/
 node_modules/
+/src/prisma/generated
+.env
