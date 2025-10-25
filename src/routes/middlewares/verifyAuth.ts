@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyAccessToken } from "../../utils/token";
+import { verifyToken } from "../../utils/token";
 import { prisma } from "../../prisma";
 
 export async function verifyAuth(
@@ -8,11 +8,10 @@ export async function verifyAuth(
   next: NextFunction
 ) {
   const token = req.headers.authorization?.split(" ")[1] as string;
-  console.log(token);
   if (!token)
     return res.status(401).json({ message: "Unauthorized: No token provided" });
 
-  const decoded = verifyAccessToken(token) as { userId: string };
+  const decoded = verifyToken<{ userId: string; type: "access" }>(token);
   if (!decoded)
     return res.status(401).json({ message: "Unauthorized: Invalid token" });
 

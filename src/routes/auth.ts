@@ -1,13 +1,7 @@
 import express, { Request, Response } from "express";
-import {
-  comparePassword,
-  generateAccessToken,
-  generateRefreshToken,
-  hashPassword,
-  verifyAccessToken,
-  verifyRefreshToken,
-} from "../utils/token";
+import { comparePassword, generateToken, verifyToken } from "../utils/token";
 import { prisma } from "../prisma";
+import { verifyAuth } from "./middlewares/verifyAuth";
 
 const router = express.Router();
 
@@ -19,8 +13,30 @@ router.post("/login", async (req, res) => {
   if (!comparePassword(password, user.password))
     return res.status(401).json({ message: "Invalid credentials" });
 
-  const accessToken = generateAccessToken({ userId: user.id });
-  const refreshToken = generateRefreshToken({ userId: user.id });
+  const accessToken = generateToken({ userId: user.id, type: "access" });
+  const refreshToken = generateToken({ userId: user.id, type: "refresh" });
+
+  // Extract device metadata
+  const deviceInfo = {
+    ip:
+      req.ip ||
+      req.headers["x-forwarded-for"] ||
+      req.socket?.remoteAddress ||
+      "",
+    userAgent: req.headers["user-agent"] || "",
+    loginTime: new Date(),
+  };
+
+  // Save refresh token and device info in UserDevices table
+  await prisma.userDevice.create({
+    data: {
+      userId: user.id,
+      ipAddress: deviceInfo.ip[0],
+      userAgent: deviceInfo.userAgent,
+      loginTime: deviceInfo.loginTime,
+      refreshToken: refreshToken,
+    },
+  });
 
   await prisma.refreshToken.create({
     data: {
@@ -30,12 +46,21 @@ router.post("/login", async (req, res) => {
     },
   });
 
-  res.json({ accessToken, refreshToken });
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+  });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.json({ message: "Logged in successfully" });
 });
 
-router.post("/refresh", async (req, res) => {
+router.post("/refresh", verifyAuth, async (req, res) => {
   const { refreshToken: refToken } = req.body;
-  const decoded = verifyRefreshToken(refToken) as { userId: string };
+  const decoded = verifyToken<{ userId: string; type: "refresh" }>(refToken);
   if (!decoded) return res.status(401).json({ message: "Invalid token" });
 
   const refreshToken = await prisma.refreshToken.findUnique({
@@ -49,13 +74,21 @@ router.post("/refresh", async (req, res) => {
   if (refreshToken.expiresAt < new Date())
     return res.status(401).json({ message: "Token expired" });
 
-  const accessToken = generateAccessToken({ userId: refreshToken.userId });
-  res.json({ accessToken });
+  const accessToken = generateToken({
+    userId: refreshToken.userId,
+    type: "access",
+  });
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+  });
+  res.json({ message: "Token refreshed successfully" });
 });
 
-router.post("/logout", async (req, res) => {
+router.post("/logout", verifyAuth, async (req, res) => {
   const { refreshToken: refToken } = req.body;
-  const decoded = verifyRefreshToken(refToken) as { userId: string };
+  const decoded = verifyToken<{ userId: string; type: "refresh" }>(refToken);
   if (!decoded) return res.status(401).json({ message: "Invalid token" });
 
   const refreshToken = await prisma.refreshToken.findUnique({
@@ -73,6 +106,16 @@ router.post("/logout", async (req, res) => {
     where: { token: refToken },
     data: { revoked: true },
   });
+  res.cookie("accessToken", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 0,
+  });
+  res.cookie("refreshToken", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 0,
+  });
   res.json({ message: "Logged out successfully" });
 });
 
@@ -81,7 +124,7 @@ router.get("/me", async (req, res) => {
   const accessToken = authorization?.split(" ")[1];
   if (!accessToken) return res.status(401).json({ message: "Unauthorized" });
 
-  const decoded = verifyAccessToken(accessToken) as { userId: string };
+  const decoded = verifyToken<{ userId: string; type: "access" }>(accessToken);
   if (!decoded) return res.status(401).json({ message: "Invalid token" });
 
   const user = await prisma.user.findUnique({ where: { id: decoded.userId } });

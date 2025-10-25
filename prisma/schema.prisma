@@ -58,7 +58,7 @@ model User {
   workspaceMemberships WorkspaceMembership[]
   projectMemberships   ProjectMembership[]
   taskAssignments      TaskAssignment[]
-  assignedTasks        Task[]                @relation("TaskAssignee")
+  assignedTasks        Task[]                 @relation("TaskAssignee")
   notifications        Notification[]
   auditLogs            AuditLog[]
   userDevices          UserDevice[]
