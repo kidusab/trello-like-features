@@ -5,8 +5,10 @@
   "type": "module",
   "private": true,
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/bun": "latest",
     "@types/express": "^5.0.4",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.9.1",
     "ts-node": "^10.9.2"
   },
@@ -16,9 +18,11 @@
   "dependencies": {
     "@prisma/client": "^6.18.0",
     "apollo-server-express": "^3.13.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "graphql": "^16.11.0",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.16.3",
     "prisma": "^6.18.0"
   }
