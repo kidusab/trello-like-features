@@ -1,0 +1,15 @@
+@projectId = cmh83ei7u0008ubvon0gmoluv
+@assigneeId = cmh6hoyax0000ubxw6oyp8s1c
+
+### create task
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "mutation ($projectId: ID!, $title: String!, $assigneeId: ID!) { createTask(projectId: $projectId, title: $title, assigneeId: $assigneeId) { id title } }",
+  "variables": {
+    "projectId": "{{projectId}}",
+    "title": "Test Task",
+    "assigneeId": "{{assigneeId}}" 
+  }
+}

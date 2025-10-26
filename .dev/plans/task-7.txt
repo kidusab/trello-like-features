@@ -1,0 +1,62 @@
+# Task 7: Secure Dual Logging System
+
+## Objective
+Implement a comprehensive logging system that writes to both files and database for security monitoring and compliance.
+
+## Deliverables
+1. **Logging Service Setup**
+   - Configure Winston logger for file logging
+   - Set up database logging to auditLogs table
+   - Create logging utility functions
+   - Implement log rotation and management
+
+2. **File Logging (audit.log)**
+   - Log all activity to local file
+   - Include timestamp, severity level, message, User ID
+   - Implement log levels: info, warn, error, security
+   - Set up log rotation and cleanup
+
+3. **Database Logging (auditLogs table)**
+   - Authentication failures with IP addresses
+   - Admin actions (user ban/unban, password reset)
+   - Critical errors and exceptions
+   - Task lifecycle events (status changes)
+   - Project/Workspace management events
+   - Session management (login/logout, device revocation)
+
+4. **Log Categories Implementation**
+   - System Logs: Critical errors, exceptions
+   - Security Logs: Auth failures, admin actions
+   - User Logs: Session management, user actions
+   - Activity Tracker: Task/project/workspace changes
+
+5. **Logging Integration**
+   - Integrate logging into all critical operations
+   - Add logging middleware for HTTP requests
+   - Log GraphQL operations and errors
+   - Implement error handling with logging
+
+## Technical Requirements
+- Use Winston for file logging with proper configuration
+- Implement database logging with structured data
+- Create reusable logging functions
+- Include IP address tracking where possible
+- Implement proper error handling and logging
+- Use structured logging format (JSON)
+
+## Success Criteria
+- All critical events are logged to both file and database
+- Log entries include all required fields (timestamp, level, userId, etc.)
+- Logging works across all application components
+- File logs are properly rotated and managed
+- Database logs are structured and queryable
+- Security events are properly categorized and logged
+
+## Estimated Time
+4-5 hours
+
+## Dependencies
+Task 2 (Database Schema) - for auditLogs table
+
+## Next Task
+Task 8: Testing Implementation (Unit & E2E)

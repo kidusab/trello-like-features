@@ -1,0 +1,58 @@
+# Task 6: Real-time GraphQL Subscriptions
+
+## Objective
+Implement GraphQL subscriptions for real-time updates when task statuses change within workspaces.
+
+## Deliverables
+1. **GraphQL Subscription Setup**
+   - Configure Apollo Server with subscription support
+   - Set up WebSocket connection handling
+   - Implement subscription authentication middleware
+
+2. **Task Status Update Subscription**
+   - taskStatusUpdated(workspaceId: ID!): Task
+   - Filter subscriptions by workspaceId
+   - Send updates only to workspace members
+   - Include necessary task data in payload
+
+3. **Real-time Event Triggers**
+   - Hook into task update mutations
+   - Detect status changes (TODO → IN_PROGRESS → DONE)
+   - Publish events to appropriate subscribers
+   - Handle subscription cleanup and error handling
+
+4. **Subscription Management**
+   - User connection tracking
+   - Workspace membership verification for subscriptions
+   - Handle connection drops and reconnections
+   - Implement subscription authorization
+
+5. **Testing Real-time Features**
+   - Test subscription with multiple clients
+   - Verify workspace filtering works correctly
+   - Test authentication with subscriptions
+   - Verify proper cleanup on disconnect
+
+## Technical Requirements
+- Use Apollo Server subscriptions with WebSocket
+- Implement proper authentication for subscriptions
+- Use PubSub or similar for event publishing
+- Handle subscription lifecycle properly
+- Filter events by workspace membership
+
+## Success Criteria
+- Users can subscribe to task status updates for their workspaces
+- Real-time updates are sent only to workspace members
+- Subscription authentication works correctly
+- Multiple clients can connect simultaneously
+- Proper cleanup when clients disconnect
+- Events are filtered correctly by workspaceId
+
+## Estimated Time
+4-5 hours
+
+## Dependencies
+Task 5 (Project & Task Management)
+
+## Next Task
+Task 7: Secure Dual Logging System

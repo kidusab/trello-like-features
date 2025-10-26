@@ -1,0 +1,51 @@
+# Task 2: Database Schema Design & Migration
+
+## Objective
+Design and implement the complete PostgreSQL database schema with all required tables, relationships, and constraints.
+
+## Deliverables
+1. **Core Tables Design**
+   - Users table (id, email, password, globalStatus, timestamps)
+   - Workspaces table (id, name, createdAt, updatedAt)
+   - WorkspaceMemberships table (userId, workspaceId, role, joinedAt)
+   - Projects table (id, name, workspaceId, createdAt, updatedAt)
+   - ProjectMemberships table (userId, projectId, role, joinedAt)
+   - Tasks table (id, title, description, status, projectId, createdAt, updatedAt)
+   - TaskAssignments table (taskId, userId, assignedAt)
+
+2. **Authentication & Session Tables**
+   - UserDevices table (id, userId, refreshToken, ipAddress, userAgent, loginTime, isRevoked)
+   - PasswordResetTokens table (id, userId, token, expiresAt, used)
+
+3. **Notification & Audit Tables**
+   - Notifications table (id, title, body, recipientId, status, relatedEntityId, createdAt)
+   - AuditLogs table (id, timestamp, level, userId, ipAddress, action, details)
+
+4. **Database Migrations**
+   - Create migration files for all tables
+   - Set up foreign key constraints
+   - Create indexes for performance
+   - Set up enum types for roles and statuses
+
+## Technical Requirements
+- Use raw SQL for all database operations
+- Implement proper foreign key relationships
+- Create appropriate indexes for query performance
+- Use PostgreSQL enums for role and status fields
+- Set up database migration system
+
+## Success Criteria
+- All tables created successfully
+- Foreign key constraints working
+- Indexes created for performance
+- Migration system functional
+- Database schema matches requirements exactly
+
+## Estimated Time
+4-5 hours
+
+## Dependencies
+Task 1 (Project Setup)
+
+## Next Task
+Task 3: JWT Authentication System Implementation

@@ -1,0 +1,58 @@
+# Task 4: Authorization System & Workspace Management
+
+## Objective
+Implement the complex authorization hierarchy and workspace management system with granular permission checks.
+
+## Deliverables
+1. **Authorization Middleware**
+   - Workspace membership verification
+   - Role-based permission checking (Owner > Member > Viewer)
+   - Project-level role verification (Project Lead > Contributor > Project Viewer)
+   - Admin override capabilities
+
+2. **Workspace GraphQL Mutations**
+   - createWorkspace - User becomes Owner automatically
+   - addWorkspaceMember - Requires Owner role, assigns default Member role
+   - removeWorkspaceMember - Requires Owner role
+   - updateWorkspaceMemberRole - Requires Owner role, cannot change Owner role
+
+3. **Workspace GraphQL Queries**
+   - getWorkspace - Requires at least Viewer role membership
+   - getAllWorkspaces - Admin-only query to view all workspaces
+
+4. **Permission Logic Implementation**
+   - Workspace Owner: Full CRUD rights, can add/remove members, assign roles
+   - Workspace Member: Can create/edit/delete Projects and Tasks
+   - Workspace Viewer: Read-only access to Projects and Tasks
+   - Project Lead: Manage project membership/roles, edit all tasks, delete project
+   - Project Contributor: Create/edit/update tasks assigned to them or unassigned
+   - Project Viewer: Read-only access to project tasks
+
+5. **Admin Functionality**
+   - userBan/unban - Set user Global Status to BANNED/ACTIVE
+   - adminResetPassword - Force reset user password
+   - Security log entries for all admin actions
+
+## Technical Requirements
+- Implement granular permission checks at every endpoint
+- Use database queries to verify membership and roles
+- Create reusable authorization utility functions
+- Implement proper error messages for unauthorized access
+- Log all admin actions to audit system
+
+## Success Criteria
+- All workspace operations respect role-based permissions
+- Users cannot access workspaces they're not members of
+- Role hierarchy is enforced correctly (Owner > Member > Viewer)
+- Project-level permissions work within workspace context
+- Admin functions work and are properly logged
+- Permission checks are consistent across all endpoints
+
+## Estimated Time
+6-7 hours
+
+## Dependencies
+Task 3 (JWT Authentication)
+
+## Next Task
+Task 5: Project & Task Management System

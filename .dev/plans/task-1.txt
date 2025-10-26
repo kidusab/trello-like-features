@@ -1,0 +1,43 @@
+# Task 1: Project Setup & Environment Configuration
+
+## Objective
+Set up the foundational project structure with Bun runtime, PostgreSQL database, and basic Express.js server.
+
+## Deliverables
+1. **Project Initialization**
+   - Initialize Bun project with package.json
+   - Install core dependencies (Express, Apollo Server, PostgreSQL driver)
+   - Set up TypeScript configuration
+   - Create basic folder structure
+
+2. **Database Setup**
+   - Set up PostgreSQL database (Docker Compose or Neon DB)
+   - Create initial database connection
+   - Set up environment variables for database credentials
+
+3. **Basic Server Setup**
+   - Create Express.js server with Bun
+   - Set up basic middleware (CORS, body parsing, etc.)
+   - Create health check endpoint
+   - Test server startup
+
+## Technical Requirements
+- Use Bun as runtime and package manager
+- PostgreSQL connection with raw SQL queries
+- Environment variable management
+- Basic error handling
+
+## Success Criteria
+- Server starts successfully on specified port
+- Database connection established
+- Health check endpoint returns 200 OK
+- Project structure follows Node.js best practices
+
+## Estimated Time
+2-3 hours
+
+## Dependencies
+None (starting task)
+
+## Next Task
+Task 2: Database Schema Design & Migration

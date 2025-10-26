@@ -1,0 +1,86 @@
+@workspaceId=cmh83dgab0000ubvo4ha3hlw2
+@projectId=cmh83ei7u0008ubvon0gmoluv
+@memberId=cmh6hoyax0000ubxw6oyp8s1c
+
+### create project
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "mutation ($workspaceId: ID!, $name: String!) { createProject(workspaceId: $workspaceId, name: $name) { id name } }",
+  "variables": {
+    "workspaceId": "{{workspaceId}}",
+    "name": "Trello Project"
+  }
+}
+
+### get project
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "query GetProject($id: ID!) { getProject(id: $id) { id name } }",
+  "variables": {
+    "id": "{{projectId}}"
+  }
+}
+
+### update project
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query":"mutation ($projectId: ID!, $name: String!) { updateProject(projectId: $projectId, name: $name) { id name } }",
+  "variables": {
+    "projectId": "{{projectId}}",
+    "name": "Trello"
+  }
+}
+
+### delete project
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query":"mutation ($projectId: ID!) { deleteProject(projectId: $projectId) { success message } }",
+  "variables": {
+    "projectId": "{{projectId}}"
+  }
+}
+
+### add project member
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query":"mutation ($projectId: ID!, $userEmail: String!) { addProjectMember(projectId: $projectId, userEmail: $userEmail) { id user { id email } role } }",
+    "variables": {
+    "projectId": "{{projectId}}",
+    "userEmail": "tes1t@test.com"
+  }
+}
+
+### remove project member
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query":"mutation ($projectId: ID!, $memberId: ID!) { removeProjectMember(projectId: $projectId, memberId: $memberId) { success message } }",
+  "variables": {
+    "projectId": "{{projectId}}",
+    "memberId": "{{memberId}}"
+  }
+}
+
+### update project member role
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query":"mutation ($projectId: ID!, $memberId: ID!, $newRole: ProjectRole!) { updateProjectMemberRole(projectId: $projectId, memberId: $memberId, newRole: $newRole) { success message previousRole newRole } }",
+  "variables": {
+    "projectId": "{{projectId}}",
+    "memberId": "{{memberId}}",
+    "newRole": "CONTRIBUTOR"
+  }
+}

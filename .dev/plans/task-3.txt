@@ -1,0 +1,55 @@
+# Task 3: JWT Authentication System Implementation
+
+## Objective
+Implement the complete JWT authentication system with dual tokens (Access + Refresh) and all authentication endpoints.
+
+## Deliverables
+1. **JWT Utilities**
+   - Token generation functions (access & refresh tokens)
+   - Token verification middleware
+   - Token refresh logic
+   - Password hashing utilities (bcrypt)
+
+2. **REST Authentication Endpoints**
+   - POST /auth/login - Returns accessToken + refreshToken (HTTP-only cookie)
+   - POST /auth/logout - Invalidates refreshToken server-side
+   - POST /auth/refresh - Accepts refreshToken, issues new accessToken
+
+3. **GraphQL Authentication Mutations**
+   - register - User registration with email/password
+   - forgotPassword - Send reset link/code (mock email)
+   - updatePassword - Change authenticated user's password
+
+4. **Device & Session Management**
+   - Track device metadata on login (IP, userAgent, loginTime)
+   - Store refreshToken with device info in UserDevices table
+   - Implement session revocation functionality
+
+5. **Authentication Middleware**
+   - JWT verification middleware for protected routes
+   - Role-based access control middleware
+   - Admin-only middleware
+
+## Technical Requirements
+- Use jsonwebtoken library for JWT operations
+- Implement secure password hashing with bcrypt
+- Use HTTP-only cookies for refresh tokens
+- Store device metadata for security tracking
+- Implement proper error handling for auth failures
+
+## Success Criteria
+- User can register, login, and logout successfully
+- Access tokens expire after short duration
+- Refresh tokens work correctly for token renewal
+- Device tracking captures all required metadata
+- Authentication middleware protects routes properly
+- Password reset flow works (with mocked email)
+
+## Estimated Time
+5-6 hours
+
+## Dependencies
+Task 2 (Database Schema)
+
+## Next Task
+Task 4: Authorization System & Workspace Management

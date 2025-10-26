@@ -1,0 +1,39 @@
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtaDdycWZxMDAwMDB1YmVja21vcGtrZXAiLCJpYXQiOjE3NjE0ODczNTYsImV4cCI6MTg0Nzg4NzM1Nn0.xyT2ZkVuQyM9UFNUAEvb3Bh5KfnbHWx6eqOK6M_VVH8
+
+
+# adminLogin
+POST http://localhost:4000/admin/login
+content-type: application/json
+
+{
+  "email": "admin2@example.com",
+  "password": "password"
+}
+
+### adminLogout
+POST http://localhost:4000/admin/logout
+authorization: Bearer {{adminToken}}
+
+### adminBanUser
+POST http://localhost:4000/admin/ban/user
+content-type: application/json
+
+{
+  "id": "cmh6h5b8n0000ubho30ugh1im"
+}
+
+### adminUnbanUser
+POST http://localhost:4000/admin/unban/user
+content-type: application/json
+
+{
+  "id": "cmh6h5b8n0000ubho30ugh1im"
+}
+
+### adminGetAllWorkspaces
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "query GetAllWorkspaces { getAllWorkspaces { id name createdAt updatedAt members { id user { id email } role } } }"
+}

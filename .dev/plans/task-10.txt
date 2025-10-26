@@ -1,0 +1,59 @@
+# Task 10: AI Integration & Bonus Features
+
+## Objective
+Implement AI integration with Gemini API and additional bonus features to demonstrate advanced capabilities.
+
+## Deliverables
+1. **AI Integration (Gemini API)**
+   - summarizeTask Query: Accept long task description, return 1-2 sentence summary
+   - generateTasksFromPrompt Mutation: Accept high-level prompt, generate structured task list
+   - Persist AI-generated tasks to specified project
+   - Handle AI API errors and rate limiting
+
+2. **Rate Limiting & Security**
+   - Implement rate limiting on public endpoints (login, registration)
+   - Add brute force attack protection
+   - Configure rate limiting middleware
+   - Set up IP-based throttling
+
+3. **Push Notifications (VAPID/Firebase)**
+   - Set up VAPID keys for web push notifications
+   - Implement push notification service
+   - Send notifications when tasks are assigned
+   - Handle notification delivery and failures
+
+4. **Advanced Features**
+   - Implement graceful shutdown with signal handling
+   - Add comprehensive error handling
+   - Set up monitoring and health checks
+   - Implement request/response logging
+
+5. **Documentation & Demo**
+   - Create comprehensive README.md
+   - Document all API endpoints and GraphQL schema
+   - Create sample queries and mutations
+   - Prepare demonstration materials
+
+## Technical Requirements
+- Integrate Gemini API with proper error handling
+- Implement rate limiting with express-rate-limit
+- Set up web push notifications with web-push library
+- Use proper signal handling for graceful shutdown
+- Create comprehensive documentation
+
+## Success Criteria
+- AI features work correctly with Gemini API
+- Rate limiting prevents brute force attacks
+- Push notifications are delivered successfully
+- Application shuts down gracefully
+- Documentation is complete and clear
+- All bonus features are functional
+
+## Estimated Time
+5-6 hours
+
+## Dependencies
+Tasks 1-9 (Core application functionality)
+
+## Project Completion
+This completes the full-stack collaboration platform with all required features and bonus enhancements. The project demonstrates enterprise-level Node.js development skills with security, scalability, and maintainability focus.

@@ -1,0 +1,89 @@
+# Mid-Level Node.js Developer Technical Test: Full Stack Collaboration Platform
+
+## Project Overview
+Build a backend API for a collaborative project management platform (Trello-like task tracker) with complete JWT authentication, complex authorization, and real-time features. This is a comprehensive backend-focused project that demonstrates enterprise-level development skills.
+
+## Core Understanding Required
+
+### 1. Authentication & Authorization Hierarchy
+- **JWT System**: Dual-token approach (Access + Refresh tokens)
+- **User Roles**: Global status (ACTIVE, BANNED, ADMIN)
+- **Workspace Roles**: Owner > Member > Viewer
+- **Project Roles**: Project Lead > Contributor > Project Viewer
+- **Granular Permissions**: Complex nested authorization system
+
+### 2. Data Architecture
+- **PostgreSQL**: Raw SQL queries, complex relationships
+- **Multi-level Membership**: Users → Workspaces → Projects → Tasks
+- **Device Tracking**: Session management with metadata
+- **Audit System**: Dual logging (File + Database)
+
+### 3. API Architecture
+- **Mixed API**: GraphQL (primary) + REST (auth endpoints)
+- **Real-time**: GraphQL Subscriptions for live updates
+- **Security**: Rate limiting, secure logging, session management
+
+## Technology Stack & Features
+
+### Core Technologies
+- **Runtime**: Bun (execution + package management)
+- **Framework**: Express.js with Bun
+- **Database**: PostgreSQL (raw SQL, Docker/Neon setup)
+- **API**: Apollo Server (GraphQL) + Express (REST)
+- **Authentication**: JWT with dual tokens
+- **Logging**: Winston (dual destination)
+
+### Key Features Required
+1. **Authentication System**
+   - Registration/Login/Logout
+   - Token refresh mechanism
+   - Password reset flow
+   - Admin user management
+
+2. **Authorization System**
+   - Workspace-based permissions
+   - Project-level role management
+   - Granular access control
+   - Admin override capabilities
+
+3. **Task Management**
+   - CRUD operations for projects/tasks
+   - Task assignment and notifications
+   - Status tracking and updates
+   - Real-time subscriptions
+
+4. **Security & Monitoring**
+   - Dual logging system (File + DB)
+   - Audit trails for all actions
+   - Session and device tracking
+   - Security event logging
+
+5. **Testing & Deployment**
+   - Unit tests for core logic
+   - E2E tests for critical flows
+   - CI/CD pipeline setup
+   - Docker containerization
+
+### Advanced Features (Bonus)
+- **AI Integration**: Gemini API for task summarization and generation
+- **Push Notifications**: VAPID/Firebase web push
+- **Rate Limiting**: Brute force protection
+- **Graceful Shutdown**: Signal handling
+
+## Critical Success Factors
+1. **Security First**: JWT implementation, secure logging, authorization checks
+2. **Data Integrity**: Complex relationships, foreign keys, constraints
+3. **Real-time Features**: GraphQL subscriptions working correctly
+4. **Test Coverage**: Comprehensive testing of critical paths
+5. **Documentation**: Clear setup instructions and architecture explanation
+
+## Project Complexity
+This is a **mid-to-senior level** project requiring:
+- Deep understanding of authentication/authorization patterns
+- Complex database design and relationships
+- Real-time communication implementation
+- Security best practices
+- Testing strategies
+- DevOps/CI-CD knowledge
+
+The project tests both technical depth and architectural thinking, with emphasis on security, scalability, and maintainability.

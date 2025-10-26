@@ -1,0 +1,72 @@
+@workspaceId=cmh7snnmy0000ub1smsw7z32a
+@memberId=cmh6hoyax0000ubxw6oyp8s1c
+
+### Create Workspace (GraphQL)
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "mutation CreateWorkspace($name: String!) { createWorkspace(name: $name) { id name createdAt updatedAt members { id user { id email } role } } }",
+  "variables": {
+    "name": "Test Workspace"
+  }
+}
+
+### Get Workspace (GraphQL)
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "query GetWorkspace($id: ID!) { getWorkspace(id: $id) { id name createdAt updatedAt members { id user { id email } role } } }",
+  "variables": {
+    "id": "{{workspaceId}}"
+  }
+}
+
+### Add Member to Workspace (GraphQL)
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "mutation AddMemberToWorkspace($workspaceId: ID!, $userEmail: String!) { addWorkspaceMember(workspaceId: $workspaceId, userEmail: $userEmail) { id user { id email } role } }",
+  "variables": {
+    "workspaceId": "{{workspaceId}}",
+    "userEmail": "tes1t@test.com"
+  }
+}
+
+### Remove Member from Workspace (GraphQL)
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "mutation RemoveMemberFromWorkspace($workspaceId: ID!, $memberId: ID!) { removeWorkspaceMember(workspaceId: $workspaceId, memberId: $memberId) { success message } }",
+  "variables": {
+    "workspaceId": "{{workspaceId}}",
+    "memberId": "{{memberId}}"
+  }
+}
+
+### Update Member Role (GraphQL)
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "mutation UpdateMemberRole($workspaceId: ID!, $memberId: ID!, $newRole: WorkspaceRole!) { updateWorkspaceMemberRole(workspaceId: $workspaceId, memberId: $memberId, newRole: $newRole) { success message previousRole newRole } }",
+  "variables": {
+    "workspaceId": "{{workspaceId}}",
+    "memberId": "{{memberId}}",
+    "newRole": "VIEWER"
+  }
+}
+
+### GET 1 WORKSPACE (GraphQL)
+POST http://localhost:4000/graphql
+content-type: application/json
+
+{
+  "query": "query GetWorkspace($id: ID!) { getWorkspace(id: $id) { id name createdAt updatedAt members { id user { id email } role } } }",
+  "variables": {
+    "id": "{{workspaceId}}"
+  }
+}

@@ -1,0 +1,57 @@
+# Task 5: Project & Task Management System
+
+## Objective
+Implement the complete project and task management system with CRUD operations and assignment functionality.
+
+## Deliverables
+1. **Project Management GraphQL Mutations**
+   - createProject - Requires Workspace Member or Owner role
+   - updateProject - Update project details
+   - deleteProject - Requires Project Lead or Workspace Owner role
+   - updateProjectMemberRole - Change user's role within specific project
+
+2. **Task Management GraphQL Mutations**
+   - createTask - Requires Project Contributor or Project Lead role
+   - updateTask - Update task details, status, assignments
+   - deleteTask - Requires Project Contributor or Project Lead role
+   - assignTask - Assign/reassign tasks to users
+
+3. **Task Assignment & Notification System**
+   - Automatic notification creation when tasks are assigned
+   - Notification status tracking (DELIVERED, SEEN)
+   - Notification management mutations (mark as seen)
+
+4. **Project & Task GraphQL Queries**
+   - getProject - Retrieve project with tasks
+   - getTask - Retrieve individual task details
+   - getUserTasks - Get tasks assigned to current user
+   - getProjectTasks - Get all tasks in a project
+
+5. **Data Validation & Business Logic**
+   - Task status validation (TODO, IN_PROGRESS, DONE)
+   - Assignment validation (users must be project members)
+   - Project membership validation (users must be workspace members)
+
+## Technical Requirements
+- Implement proper authorization checks for all operations
+- Use database transactions for complex operations
+- Create notification entries automatically on task assignment
+- Validate all input data and business rules
+- Handle many-to-many relationships (tasks to users)
+
+## Success Criteria
+- Users can create, update, and delete projects within their workspaces
+- Task CRUD operations work with proper permission checks
+- Task assignments trigger notifications correctly
+- Project membership roles are enforced
+- All operations respect the authorization hierarchy
+- Data integrity is maintained across all operations
+
+## Estimated Time
+5-6 hours
+
+## Dependencies
+Task 4 (Authorization System)
+
+## Next Task
+Task 6: Real-time GraphQL Subscriptions
