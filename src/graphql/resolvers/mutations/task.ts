@@ -2,35 +2,52 @@ import { prisma, PrismaEnums } from "../../../prisma";
 import { getProjectMembership } from "./project";
 
 export default {
-  // --- TASK CRUD MUTATIONS ---
-
   createTask: async (
     _: any,
-    { projectId, title }: { projectId: string; title: string },
+    {
+      projectId,
+      title,
+      assigneeId,
+    }: { projectId: string; title: string; assigneeId: string },
     context: any
   ) => {
     const userId = context.userId;
     if (!userId) throw new Error("Not authenticated");
 
-    // Requires "MEMBER", "LEAD", "ADMIN", "OWNER" etc.
     const membership = await getProjectMembership(userId, projectId);
-    if (
-      !membership ||
-      ![
-        PrismaEnums.ProjectRole.PROJECT_LEAD,
-        PrismaEnums.ProjectRole.CONTRIBUTOR,
-        PrismaEnums.ProjectRole.PROJECT_VIEWER,
-      ].includes(membership.role)
-    ) {
-      throw new Error(
-        "You must be a project contributor or lead to create tasks."
+
+    if (!membership) throw new Error("You are not a member of this project");
+    if (membership.role === PrismaEnums.ProjectRole.PROJECT_VIEWER) {
+      throw new Error("You are not a contributor of this project");
+    }
+
+    if (assigneeId) {
+      const assigneeMembership = await getProjectMembership(
+        assigneeId,
+        projectId
       );
+
+      if (!assigneeMembership)
+        throw new Error("Assignee is not a member of this project");
+
+      if (assigneeMembership.role === PrismaEnums.ProjectRole.PROJECT_VIEWER)
+        throw new Error("Assignee is not a contributor of this project");
     }
 
     const task = await prisma.task.create({
       data: {
         title,
         projectId,
+        assignees: {
+          connect: {
+            id: userId,
+          },
+        },
+        assignments: {
+          create: {
+            userId: assigneeId,
+          },
+        },
       },
     });
 
