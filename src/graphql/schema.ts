@@ -1,71 +1,21 @@
 import { gql } from "apollo-server-express";
+import querySchemas from "./resolvers/schemas/query";
+import authMutationsSchemas from "./resolvers/schemas/auth";
+import workspaceMutationsSchemas from "./resolvers/schemas/workspace";
+import projectMutationsSchemas from "./resolvers/schemas/project";
+import taskMutationsSchemas from "./resolvers/schemas/task";
 
 export const typeDefs = gql`
-  type Query {
-    hello: String
-    getWorkspace(id: ID!): Workspace
-    getAllWorkspaces: [Workspace!]!
-    getProject(id: ID!): Project
-    getAllProjects: [Project!]!
-    getTask(id: ID!): Task
-    getAllTasks(projectId: ID!): [Task!]!
-  }
+  ${querySchemas}
 
   type Mutation {
-    # AUTH USER
-    register(email: String!, password: String!): AuthPayload!
-    forgotPassword(email: String!): ForgotPasswordResponse!
-    updatePassword(
-      currentPassword: String!
-      newPassword: String!
-    ): UpdatePasswordResponse!
+    ${authMutationsSchemas}
 
-    # WORKSPACE
-    createWorkspace(name: String!): Workspace!
-    addWorkspaceMember(workspaceId: ID!, userEmail: String!): WorkspaceMember!
-    removeWorkspaceMember(
-      workspaceId: ID!
-      memberId: ID!
-    ): RemoveMemberResponse!
-    updateWorkspaceMemberRole(
-      workspaceId: ID!
-      memberId: ID!
-      newRole: WorkspaceRole!
-    ): UpdateMemberRoleResponse!
+    ${workspaceMutationsSchemas}
 
-    # PROJECT
-    createProject(workspaceId: ID!, name: String!): Project!
-    updateProject(projectId: ID!, name: String!): Project!
-    deleteProject(projectId: ID!): DeleteProjectResponse!
-    addProjectMember(projectId: ID!, userEmail: String!): ProjectMember!
-    removeProjectMember(
-      projectId: ID!
-      memberId: ID!
-    ): RemoveProjectMemberResponse!
-    updateProjectMemberRole(
-      projectId: ID!
-      memberId: ID!
-      newRole: ProjectRole!
-    ): UpdateProjectMemberRoleResponse!
+    ${projectMutationsSchemas}
 
-    # TASK
-    createTask(
-      projectId: ID!
-      title: String!
-      description: String
-      assigneeId: ID
-      dueDate: String
-      status: TaskStatus
-    ): Task!
-    updateTask(
-      taskId: ID!
-      title: String
-      description: String
-      assigneeId: ID
-      dueDate: String
-      status: TaskStatus
-    ): Task!
-    deleteTask(taskId: ID!): DeleteTaskResponse!
+    ${taskMutationsSchemas}
   }
 
   type AuthPayload {
