@@ -142,12 +142,9 @@ export const typeDefs = gql`
   }
 
   enum ProjectRole {
-    OWNER
-    MEMBER
-    VIEWER
-    ADMIN
-    LEAD
+    PROJECT_LEAD
     CONTRIBUTOR
+    PROJECT_VIEWER
   }
 
   type DeleteProjectResponse {
