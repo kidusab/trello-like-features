@@ -1,43 +1,50 @@
-import { prisma } from "../prisma";
+import { prisma, PrismaTypes } from "../prisma";
 import { Request } from "express";
 import { verifyToken } from "../utils/token";
 
 export const context = async ({ req }: { req: Request }) => {
+  const cookies = req.cookies;
+
   try {
-    const adminToken =
-      (req.cookies.adminToken as string) ??
-      req.headers.authorization?.split(" ")[1];
+    const data: { [key: string]: any } = {};
 
-    if (adminToken) {
-      const decoded = verifyToken<{ id: string }>(adminToken);
-      if (!decoded) return { adminId: null };
+    for await (const [key, value] of Object.entries(cookies)) {
+      if (key === "accessToken" || key === "refreshToken") {
+        const token = value as string;
+        if (!token) continue;
 
-      const admin = await prisma.admin.findUnique({
-        where: { id: decoded.id },
-      });
-      if (!admin) return { adminId: null };
+        const decoded = verifyToken<{ userId: string; type: "access" }>(token);
+        if (!decoded) continue;
 
-      return { adminId: admin.id, admin };
+        if (decoded.type !== "access") continue;
+
+        const user = await prisma.user.findUnique({
+          where: { id: decoded.userId },
+        });
+        if (!user) continue;
+
+        data.userId = decoded.userId;
+        data.user = user;
+      } else if (key === "adminToken") {
+        const token = value as string;
+        if (!token) continue;
+
+        const decoded = verifyToken<{ id: string }>(token);
+        if (!decoded) continue;
+
+        const admin = await prisma.admin.findUnique({
+          where: { id: decoded.id },
+        });
+        if (!admin) continue;
+
+        data.adminId = decoded.id;
+        data.admin = admin;
+      }
     }
 
-    const token =
-      (req.cookies.accessToken as string) ??
-      req.headers.authorization?.split(" ")[1];
-    if (!token) return { userId: null };
-
-    const decoded = verifyToken<{ userId: string; type: "access" }>(token);
-    if (!decoded) return { userId: null };
-
-    if (decoded.type !== "access") return { userId: null };
-
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-    });
-    if (!user) return { userId: null };
-
-    return { userId: user.id, user };
+    return data;
   } catch (error) {
     console.error("Error verifying token", error);
-    return { userId: null };
+    return {};
   }
 };
