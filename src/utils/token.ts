@@ -4,12 +4,9 @@ import { randomBytes } from "crypto";
 
 const TOKEN_SECRET_KEY = process.env.TOKEN_SECRET_KEY || "token-secret-key";
 
-const ACCESS_TOKEN_EXPIRY = "15m";
-const REFRESH_TOKEN_EXPIRY = "30d";
-
-export function generateToken(payload: any): string {
+export function generateToken(payload: any, expiresIn?: number): string {
   return jwt.sign(payload, TOKEN_SECRET_KEY, {
-    expiresIn: "15m",
+    expiresIn: expiresIn ?? Date.now() + 1000 * 60 * 60 * 24, // 1 day
   });
 }
 

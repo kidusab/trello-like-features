@@ -46,6 +46,16 @@ enum LogLevel {
 }
 
 // Core Tables
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admins")
+}
+
 model User {
   id           String       @id @default(cuid())
   email        String       @unique
@@ -58,7 +68,7 @@ model User {
   workspaceMemberships WorkspaceMembership[]
   projectMemberships   ProjectMembership[]
   taskAssignments      TaskAssignment[]
-  assignedTasks        Task[]                 @relation("TaskAssignee")
+  assignedTasks        Task[]                @relation("TaskAssignee")
   notifications        Notification[]
   auditLogs            AuditLog[]
   userDevices          UserDevice[]
@@ -69,10 +79,11 @@ model User {
 }
 
 model Workspace {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   // Relations
   memberships WorkspaceMembership[]
